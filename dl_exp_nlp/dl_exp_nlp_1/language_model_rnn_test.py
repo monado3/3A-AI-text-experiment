@@ -1,13 +1,10 @@
-#!/usr/bin/env python3
-
 import sys
-import numpy
-import chainer
-from chainer import cuda
 
+import numpy
 import sentence_data
-from sentence_data import EOS_ID
+from chainer import cuda
 from language_model_rnn import LanguageModelRNN
+from sentence_data import EOS_ID
 
 dataset = sentence_data.SentenceData("dataset/data_1000.txt")
 
