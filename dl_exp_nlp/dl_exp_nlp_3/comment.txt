@@ -1,0 +1,45 @@
+英日翻訳モデルを mini batch 化したサンプルを用意したので，
+添付した.pyファイルを参照すること．
+バッチサイズによって学習結果が変わるかもしれない．
+これは，誤差の逆伝搬が一文毎に行われず，バッチサイズ毎に行われるようになるためである．
+
+お詫びと訂正1
+配布したソースコード中で，cuda.get_device() を使用していたが，
+現在では非推奨になっており，代わりに cuda.get_device_from_id() を用いるべきであった
+今回添付した translator_model_batch.py では，そのようにしているため，参考してほしい
+
+お詫びと訂正2
+配布したソースコード中で，"id"という変数名を使用していたが，
+pythonにはidという組み込み関数があり，これとかぶってしまうため，
+本来は変数名などで使用することは避けるべきであった．
+今回添付した translator_model_test_batch.py ではこれらを word_id に変更している．
+
+お詫びと訂正3
+配布したソースコード中では
+--------
+super(TranslatorModel, self).__init__(
+    W_x_hi=L.EmbedID(source_vocabulary_size, embed_size),
+--------
+のように，スーパークラスのコンストラクタにリンクを渡していたが，
+ChainerのV2からは以下のように self.init_scope() を用いた書き方が推奨される．
+--------
+super(TranslatorModel, self).__init__()
+with self.init_scope():
+    self.W_x_hi = L.EmbedID(source_vocabulary_size, embed_size)
+--------
+今回添付した translator_model_batch.py ではこちらの書き方をしているため，参考にしてほしい．
+
+お詫びと訂正4
+また，language_model_rnn.py で， model.to_gpu() 等を行う前に reset_state() を呼んでいたため，
+最初に生成される隠れ層のデータ（self.hr）が，gpu_idにかかわらず0番に乗ってしまっていた
+その後隠れ層が更新されてからは指定したgpu_idで計算が行われるため，特に問題はないが，
+お行儀が悪いため，reset_stateはgpuを指定した後に呼ぶようにしたほうが良い．
+
+お詫びと訂正5
+サーバーにインストールされているcupyのバージョンが古かったため，
+プログラム終了時にエラーが発生してしまう事があった．
+エラー終了が気になる人は，
+$ pip install cupy==2.0.0
+として，cupyのバージョンを上げるとよい．
+ただし，サーバーに影響が出るため，ペアの人と相談して，
+サーバーを使用してないタイミングで行うとよい．

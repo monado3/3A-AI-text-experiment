@@ -1,0 +1,50 @@
+演習2.7.1
+きれいに整った文が出力された場合は，学習データと全く同じものを出力している可能性がある．
+学習データ（dataset/data_1000.txt）を検索すると見つかるかもしれない．
+
+演習2.7.2
+-----------------------------
+    def __call__(self, word):
+        hi = self.W_x_hi(Variable(xp.array([word], dtype=xp.int32)))
+        hr =  self.W_lstm(hi)
+        y = self.W_hr_y(hr)
+        return y
+-----------------------------
+解説
+LSTMクラスは内部に隠れ層のデータを持っているため，このようにW_lstmにhiをそのまま入力すればOK．
+
+よくある間違い
+-----------------------------
+    def __call__(self, word):
+        hi = self.W_x_hi(Variable(xp.array([word], dtype=xp.int32)))
+        self.hr =  self.W_lstm(hi)
+        y = self.W_hr_y(self.hr)
+        return y
+-----------------------------
+上記ソースコードは間違いとは言えないが，無駄にhrを保存していることになる．
+単純なRNN版のモデルとは異なり，隠れ層のデータは chainer.link.LSTM クラスによって保存されているため，
+自分でメンバ変数として保存する必要はない．
+
+よくある間違い
+-----------------------------
+    def __call__(self, word):
+        hi = self.W_x_hi(Variable(xp.array([word], dtype=xp.int32)))
+        hr =  F.tanh(self.W_lstm(hi))
+        y = self.W_hr_y(hr)
+        return y
+-----------------------------
+活性化関数はLSTMの内部に存在するため，tanhを手動で適用する必要はない．
+
+演習2.7.7
+添付した sentence_data.py を参照すること．
+あくまで実装の一例であることに注意すること．
+今回は入力データが1000文と小さいため，
+UNKNOWNに変換したデータに加えて元のデータも学習に用いている．
+
+演習2.7.8
+添付した translator_model_test.py を参照すること．
+
+その他質問など
+・GPUの使用率が低い
+  入力データサイズが小さいため，GPUを使い切ることができない．
+  発展課題で少し触れたが，学習データをバッチ化することでGPUの使用率を挙げることができる．
