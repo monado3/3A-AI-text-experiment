@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
 
-import sys
-import chainer
-from chainer import optimizers, cuda
-
 import sentence_data
-from sentence_data import EOS_ID
+from chainer import cuda, optimizers
 from translator_model_batch import TranslatorModel
 
 dataset = sentence_data.SentenceData("dataset/data_1000.txt")

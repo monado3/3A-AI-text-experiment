@@ -2,9 +2,9 @@ import argparse
 
 import chainer
 from chainer import serializers
-
-from net import CifarCNN
 from dataset import MyCifarDataset
+from net import CifarCNN
+
 
 def main():
     parser = argparse.ArgumentParser(description='Practice: Cifar10')
@@ -35,7 +35,7 @@ def main():
     print('test data : {}'.format(len(test)))
 
     test_iter = chainer.iterators.SerialIterator(test, args.batchsize,
-                                                  repeat=False, shuffle=False)
+                                                 repeat=False, shuffle=False)
 
     correct_cnt = 0
     with chainer.using_config('train', False), chainer.no_backprop_mode():
@@ -51,7 +51,7 @@ def main():
                 if l == p:
                     correct_cnt += 1
 
-    print('accuracy : {}'.format(correct_cnt/len(test)))
+    print('accuracy : {}'.format(correct_cnt / len(test)))
 
 
 if __name__ == '__main__':

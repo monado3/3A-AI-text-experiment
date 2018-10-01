@@ -1,6 +1,5 @@
 import chainer
-from chainer import links as L
-from chainer import functions as F
+from chainer import functions as F, links as L
 
 
 class MLP(chainer.Chain):

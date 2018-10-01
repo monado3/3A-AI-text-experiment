@@ -1,5 +1,6 @@
 try:
     import matplotlib
+
     matplotlib.use('Agg')
 except ImportError:
     pass
@@ -8,7 +9,6 @@ import argparse
 import chainer
 from chainer import training
 from chainer.training import extensions
-
 from net import MLP
 
 
@@ -52,7 +52,6 @@ def main():
     # Load the MNIST mini_cifar
     train, test = chainer.datasets.get_mnist()
 
-
     train_iter = chainer.iterators.SerialIterator(train, args.batchsize)
     test_iter = chainer.iterators.SerialIterator(test, args.batchsize,
                                                  repeat=False, shuffle=False)
@@ -70,7 +69,6 @@ def main():
     trainer.extend(extensions.snapshot(), trigger=(frequency, 'epoch'))
     trainer.extend(extensions.snapshot_object(model, 'model_{.updater.epoch}'),
                    trigger=(frequency, 'epoch'))
-
 
     trainer.extend(extensions.LogReport())
     if extensions.PlotReport.available():

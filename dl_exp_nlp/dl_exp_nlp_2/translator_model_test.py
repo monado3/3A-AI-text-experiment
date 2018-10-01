@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 
-import sys
-import numpy
-import chainer
-
 import sentence_data
 from translator_model import TranslatorModel
 

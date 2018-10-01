@@ -1,5 +1,5 @@
-import gym
 import chainerrl.agent
+import gym
 import numpy as np
 
 

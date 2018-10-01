@@ -1,6 +1,5 @@
-import gym
 import chainerrl.agent
-import numpy as np
+import gym
 
 
 class RulebaseAgent(chainerrl.agent.Agent):

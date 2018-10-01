@@ -1,7 +1,6 @@
 import chainer
-from chainer import functions as F
-from chainer import links as L
 import chainerrl
+from chainer import functions as F, links as L
 
 
 class DQNModel(chainer.Chain, chainerrl.q_function.StateQFunction):

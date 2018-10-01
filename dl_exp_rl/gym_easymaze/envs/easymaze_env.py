@@ -1,9 +1,9 @@
-import gym
-from gym import error, spaces, utils
-from gym.utils import seeding
 import copy
-import numpy as np
 from collections import OrderedDict
+
+import gym
+import numpy as np
+from gym import spaces
 
 
 class EasyMazeEnv(gym.Env):

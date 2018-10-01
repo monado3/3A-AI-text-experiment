@@ -1,11 +1,9 @@
-import gym
 import chainer
-import chainer.functions as F
-import chainer.links as L
 import chainerrl
-import numpy as np
-from .utils import Utils
+import gym
 from agents import models
+
+from .utils import Utils
 
 
 class DQNAgent(chainerrl.agents.DQN):
@@ -39,7 +37,7 @@ class DQNAgent(chainerrl.agents.DQN):
         explorer = chainerrl.explorers.ConstantEpsilonGreedy(epsilon=0.3, random_action_func=env.action_space.sample)
 
         # replay buffer (過去の履歴をまとめておくことで時系列性をなくせる)
-        replay_buffer = chainerrl.replay_buffer.ReplayBuffer(capacity=10**5)
+        replay_buffer = chainerrl.replay_buffer.ReplayBuffer(capacity=10 ** 5)
         replay_start_size = 200
 
         # 割引率

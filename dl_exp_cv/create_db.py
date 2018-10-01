@@ -1,8 +1,9 @@
-import chainer
-from chainer.links import VGG16Layers
-from PIL import Image
 import argparse
+
+import chainer
 import numpy as np
+from PIL import Image
+from chainer.links import VGG16Layers
 
 MODEL = VGG16Layers()
 

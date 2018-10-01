@@ -1,12 +1,10 @@
-import gym
-import gym_easymaze
 import agents
+import gym
 from print_buffer import PrintBuffer
 
 # GPU 番号
 # GPU を使わない場合は None にする
 gpu_id = 0
-
 
 # 環境と agent を用意
 env = gym.make('EasyMaze-v0')

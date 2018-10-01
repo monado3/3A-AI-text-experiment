@@ -1,5 +1,6 @@
 try:
     import matplotlib
+
     matplotlib.use('Agg')
 except ImportError:
     pass
@@ -8,9 +9,9 @@ import argparse
 import chainer
 from chainer import training
 from chainer.training import extensions
-
-from net import CifarCNN
 from dataset import MyCifarDataset
+from net import CifarCNN
+
 
 def main():
     parser = argparse.ArgumentParser(description='Chainer example: CIFAR10')
@@ -60,8 +61,7 @@ def main():
     train_iter = chainer.iterators.SerialIterator(train, args.batchsize,
                                                   repeat=True, shuffle=True)
     val_iter = chainer.iterators.SerialIterator(val, args.batchsize,
-                                                 repeat=False, shuffle=False)
-
+                                                repeat=False, shuffle=False)
 
     # Set up a trainer
     updater = training.StandardUpdater(train_iter, optimizer, device=args.gpu)
@@ -74,7 +74,6 @@ def main():
     trainer.extend(extensions.snapshot(filename='snapshot_{.updater.epoch}'), trigger=(20, 'epoch'))
     trainer.extend(extensions.snapshot_object(model, 'model_{.updater.epoch}'),
                    trigger=(1, 'epoch'))
-
 
     trainer.extend(extensions.LogReport())
     if extensions.PlotReport.available():
@@ -97,6 +96,7 @@ def main():
 
     with chainer.using_config('train', True):
         trainer.run()
+
 
 if __name__ == '__main__':
     main()

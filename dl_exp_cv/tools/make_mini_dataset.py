@@ -1,7 +1,8 @@
 import os
+import shutil
 from glob import glob
 from random import sample
-import shutil
+
 
 def make(train=True):
     suffix = 'train' if train else 'test'
@@ -23,7 +24,8 @@ def make(train=True):
 
 if __name__ == '__main__':
     import argparse
+
     parser = argparse.ArgumentParser(description='Chainer example: MNIST')
-    parser.add_argument('--train',action='store_true' , default=False)
+    parser.add_argument('--train', action='store_true', default=False)
     args = parser.parse_args()
     make(train=args.train)

@@ -1,8 +1,7 @@
 import chainer
-from PIL import Image
 import numpy as np
-from glob import glob
-import os
+from PIL import Image
+
 
 class MyCifarDataset(chainer.dataset.DatasetMixin):
     def __init__(self, train_dir):

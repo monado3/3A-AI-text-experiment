@@ -1,7 +1,8 @@
-import gym
-import chainerrl.agent
-import numpy as np
 from collections import OrderedDict
+
+import chainerrl.agent
+import gym
+import numpy as np
 
 
 class TableQAgent(chainerrl.agent.Agent):
@@ -56,7 +57,7 @@ class TableQAgent(chainerrl.agent.Agent):
 
     def train(self, obs, reward):
         if self.last_obs is not None:
-            assert(self.last_action is not None)
+            assert (self.last_action is not None)
             last_obs_key, obs_key = [self.observation_to_key(o) for o in [self.last_obs, obs]]
             # 見たことないようなら辞書に追加
             if last_obs_key not in self.q_table:
@@ -138,6 +139,7 @@ class TableQAgent(chainerrl.agent.Agent):
 
     def q_table_to_str(self):
         """Q table をいい感じに複数行の文字列にして返す"""
+
         def get_q(y, x, a):
             """obs=(y, x), action=a におけるQ値を返す"""
             obs_key = self.observation_to_key(OrderedDict(sorted([['y', y], ['x', x]])))

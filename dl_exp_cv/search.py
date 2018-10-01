@@ -1,8 +1,9 @@
-import chainer
-from chainer.links import VGG16Layers
 import argparse
+
+import chainer
 import numpy as np
 from PIL import Image
+from chainer.links import VGG16Layers
 
 MODEL = VGG16Layers()
 
@@ -23,6 +24,7 @@ def search(src, db_features, db_paths, k, gpu):
     ranking = np.argsort(distances)
     top_k = ranking[0:k]
     return top_k
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Practice: search')
