@@ -1,4 +1,6 @@
 import gym
+import numpy as np
+
 # from dl_exp_rl import gym_easymaze
 import gym_easymaze
 from dl_exp_rl import agents
@@ -19,7 +21,7 @@ agent = agents.RandomAgent(env, gpu_id)
 
 # 描画設定
 # train時・test時に各 step を描画するかどうか
-prints_detail = {'train': True, 'test': True}
+prints_detail = {'train': False, 'test': False}
 # 何 episode ごとに統計情報を出力するか
 every_print_statistics = {'train': 10, 'test': 10}
 # 描画モード
@@ -37,6 +39,7 @@ n_max_time = {'train': 300, 'test': 300}
 # ゲームを繰り返す
 for interact_mode in ['train', 'test']:  # 一周目: train, 二周目: test
     sum_of_all_rewards = 0.0  # episode ごとの average reward を出すために、総計を覚えておく
+    steps_by_episodes = []
     for i_episode in range(n_episode[interact_mode]):  # 各episode について
         render_buffer.prints('-------------------------------')
         render_buffer.prints('episode: {0} / {1}'.format(i_episode, n_episode[interact_mode]))
@@ -66,12 +69,14 @@ for interact_mode in ['train', 'test']:  # 一周目: train, 二周目: test
             else:
                 render_buffer.clear()  # 表示しない
             if done:
+                steps_by_episodes.append(time)
                 # ゲーム終了時(ゲームクリア) の処理
                 if prints_detail[interact_mode]:
                     print('Episode finished.')
                 break
         else:
             # ゲーム終了時(時間切れ) の処理
+            steps_by_episodes.append(time)
             if prints_detail[interact_mode]:
                 print('{0} steps have past, but the agent could not reach the goal.'.format(time))
         # episode が終了したことを agent に伝える
@@ -86,4 +91,5 @@ for interact_mode in ['train', 'test']:  # 一周目: train, 二周目: test
             average_rewards = sum_of_all_rewards / (i_episode + 1)
             print(interact_mode, 'episode:', i_episode, 'T:', '???',
                   'R:', average_rewards, 'statistics:', agent.get_statistics())
+    print('the average number of steps by episodes is {}'.format(np.mean(steps_by_episodes)))
     print(interact_mode, 'finished.')

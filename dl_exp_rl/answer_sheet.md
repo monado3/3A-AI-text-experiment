@@ -25,8 +25,8 @@ env:
 
 平均step数
 
-train:
-test:
+train:`46.08`
+test:`47.81`
 
 ## 演習 1.1.8
 
