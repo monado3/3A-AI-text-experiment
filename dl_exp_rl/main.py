@@ -1,6 +1,7 @@
 import gym
-
-from dl_exp_rl import agents, gym_easymaze
+# from dl_exp_rl import gym_easymaze
+import gym_easymaze
+from dl_exp_rl import agents
 from dl_exp_rl.print_buffer import PrintBuffer
 
 # GPU 番号
