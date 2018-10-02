@@ -1,19 +1,19 @@
 import gym
+# from dl_exp_rl import gym_easymaze this is unwork.
+import gym_easymaze
 import numpy as np
 
-# from dl_exp_rl import gym_easymaze
-import gym_easymaze
 from dl_exp_rl import agents
 from dl_exp_rl.print_buffer import PrintBuffer
 
 # GPU 番号
 # GPU を使わない場合は None にする
 gpu_id = 0
-
+gym_easymaze.__doc__
 # 環境と agent を用意
 env = gym.make('EasyMaze-v0')
 # env = gym.make('CartPole-v0')
-agent = agents.RandomAgent(env, gpu_id)
+agent = agents.RulebaseAgent(env, gpu_id)
 # agent = agents.RulebaseAgent(env, gpu_id)
 # agent = agents.TableQAgent(env, gpu_id)
 # agent = agents.DQNAgent(env, gpu_id)
@@ -69,14 +69,14 @@ for interact_mode in ['train', 'test']:  # 一周目: train, 二周目: test
             else:
                 render_buffer.clear()  # 表示しない
             if done:
-                steps_by_episodes.append(time)
+                steps_by_episodes.append(time + 1)
                 # ゲーム終了時(ゲームクリア) の処理
                 if prints_detail[interact_mode]:
                     print('Episode finished.')
                 break
         else:
             # ゲーム終了時(時間切れ) の処理
-            steps_by_episodes.append(time)
+            steps_by_episodes.append(time + 1)
             if prints_detail[interact_mode]:
                 print('{0} steps have past, but the agent could not reach the goal.'.format(time))
         # episode が終了したことを agent に伝える
@@ -89,7 +89,7 @@ for interact_mode in ['train', 'test']:  # 一周目: train, 二周目: test
         # 数 episodes に一回、統計情報を表示
         if i_episode % every_print_statistics[interact_mode] == 0 or prints_detail[interact_mode]:
             average_rewards = sum_of_all_rewards / (i_episode + 1)
-            print(interact_mode, 'episode:', i_episode, 'T:', '???',
+            print(interact_mode, 'episode:', i_episode, 'T:', time,
                   'R:', average_rewards, 'statistics:', agent.get_statistics())
     print('the average number of steps by episodes is {}'.format(np.mean(steps_by_episodes)))
     print(interact_mode, 'finished.')
