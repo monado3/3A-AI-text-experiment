@@ -1,15 +1,13 @@
 import gym
-import gym_easymaze
-import agents
-from print_buffer import PrintBuffer
+
+from dl_exp_rl import agents, gym_easymaze
+from dl_exp_rl.print_buffer import PrintBuffer
 
 # GPU 番号
 # GPU を使わない場合は None にする
 gpu_id = 0
 
-
 # 環境と agent を用意
-gym_easymaze
 env = gym.make('EasyMaze-v0')
 # env = gym.make('CartPole-v0')
 agent = agents.RandomAgent(env, gpu_id)

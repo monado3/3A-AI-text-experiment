@@ -4,6 +4,7 @@ from collections import OrderedDict
 import gym
 import numpy as np
 from gym import spaces
+from gym.utils import seeding
 
 
 class EasyMazeEnv(gym.Env):
@@ -106,6 +107,10 @@ class EasyMazeEnv(gym.Env):
             return return_str
         else:
             super().render(mode=mode)  # スーパークラスがunsupported errorを出してくれる
+
+    def _seed(self, seed=None):
+        self.np_random, seed = seeding.np_random(seed)
+        return [seed]
 
     def get_observation(self, state):
         pos = state['agent_pos']

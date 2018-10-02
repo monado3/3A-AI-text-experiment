@@ -3,9 +3,9 @@ import sys
 import numpy
 from chainer import cuda
 
-from . import sentence_data
-from .language_model_lstm import LanguageModelLSTM
-from .sentence_data import EOS_ID
+from dl_exp_nlp.dl_exp_nlp_1 import sentence_data
+from dl_exp_nlp.dl_exp_nlp_1.language_model_lstm import LanguageModelLSTM
+from dl_exp_nlp.dl_exp_nlp_1.sentence_data import EOS_ID
 
 dataset = sentence_data.SentenceData("dataset/data_1000.txt")
 
