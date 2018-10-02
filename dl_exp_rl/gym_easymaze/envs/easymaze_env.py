@@ -53,7 +53,7 @@ class EasyMazeEnv(gym.Env):
         self.observation_space = spaces.Dict({'y': spaces.Discrete(self.world_size[0]),
                                               'x': spaces.Discrete(self.world_size[1])})
 
-    def _step(self, action):
+    def _step(self, action):  # stepの動きを環境上でシミュレートし、その結果と付随情報を返す。
         # 取る行動をベクトル表現にする
         move_direction = self.move_directions[action]
 
@@ -90,12 +90,12 @@ class EasyMazeEnv(gym.Env):
         # 観測, 報酬, 終了判定, その他の任意情報 のタプルを返す
         return observe, reward, done, info
 
-    def _reset(self):
+    def _reset(self):  # 環境をリセットする
         self.state['maze'] = copy.deepcopy(self.initial_maze)
         self.state['agent_pos'] = copy.deepcopy(self.start_pos)
         return self.get_observation(self.state)
 
-    def _render(self, mode='ansi', close=False):
+    def _render(self, mode='ansi', close=False):  # 与えられたモードで現在の状態を描画する
         if close:
             # rgb_array mode などのときに、ウィンドウを閉じたりする
             # 今回は何もしない
