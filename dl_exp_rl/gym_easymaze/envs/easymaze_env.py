@@ -36,9 +36,12 @@ class EasyMazeEnv(gym.Env):
         self.move_directions = np.array(((0, 1), (1, 0), (0, -1), (-1, 0)))  # 4方向 (y, x)
         # 迷路のかたち
         # 0は移動不可、1は移動可能
+        # self.initial_maze = [[1, 1, 1, 1],
+        #                      [1, 1, 0, 1],
+        #                      [1, 1, 1, 1]]
         self.initial_maze = [[1, 1, 1, 1],
                              [1, 1, 0, 1],
-                             [1, 1, 1, 1]]
+                             [1, 1, 0, 1]]
         self.start_pos, self.goal_pos = np.array((0, 0)), np.array((2, 3))  # スタートとゴール (y, x)
 
         self.state = {}  # 状態 ゲーム中に変化するものはすべてstateとして扱うとよい
