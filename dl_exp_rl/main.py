@@ -9,14 +9,13 @@ from dl_exp_rl.print_buffer import PrintBuffer
 # GPU 番号
 # GPU を使わない場合は None にする
 gpu_id = 0
-gym_easymaze.__doc__
+gym_easymaze.__doc__  # has no effect, but needed due to pycharm import optimizer
 # 環境と agent を用意
-env = gym.make('EasyMaze-v0')
-# env = gym.make('CartPole-v0')
+# env = gym.make('EasyMaze-v0')
+env = gym.make('CartPole-v0')
 # agent = agents.RulebaseAgent(env, gpu_id)
 # agent = agents.TableQAgent(env, gpu_id)
 agent = agents.DQNAgent(env, gpu_id)
-
 
 # 描画設定
 # train時・test時に各 step を描画するかどうか
