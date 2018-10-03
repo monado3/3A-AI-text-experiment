@@ -72,8 +72,8 @@ class TableQAgent(chainerrl.agent.Agent):
                 #       self.q_table の実装がどのようになっているかに注意してください。
                 # ------------
                 # max_q =  # here #
-                raise NotImplementedError()
                 # ------------
+                max_q = np.max([self.q_table[obs_key][act] for act in range(self.action_num)])
             else:
                 max_q = 0.0
 
@@ -85,8 +85,9 @@ class TableQAgent(chainerrl.agent.Agent):
             # です。ここで、pは学習率、gは割引率です。
             # ------------
             # self.q_table[# here #][# here #] =  # here #
-            raise NotImplementedError()
             # ------------
+            self.q_table[last_obs_key][self.last_action] += self.learning_rate * (
+                reward + self.discount_factor * max_q - self.q_table[last_obs_key][self.last_action])
 
         # 観測を保存
         self.last_obs = obs
@@ -102,7 +103,8 @@ class TableQAgent(chainerrl.agent.Agent):
         self.last_action = action
         return action
 
-    def observation_to_key(self, obs):
+    @staticmethod
+    def observation_to_key(obs):
         return tuple(obs.values())
 
     def epsilon_greedy(self, obs_key):
@@ -114,8 +116,8 @@ class TableQAgent(chainerrl.agent.Agent):
         # Hint: random_agent.py を参考にしてみましょう。
         # ------------
         # random_action =  # here #
-        raise NotImplementedError()
         # ------------
+        random_action = np.random.randint(self.action_num)
 
         # exploitation (活用)
         # ---穴埋め---
@@ -123,8 +125,8 @@ class TableQAgent(chainerrl.agent.Agent):
         # Hint: np.argmax() を使うと良いでしょう。
         # ------------
         # max_q_action =  # here #
-        raise NotImplementedError()
         # ------------
+        max_q_action = np.argmax(self.q_table[obs_key])
 
         # どっちか選択
         # ---穴埋め---
@@ -132,8 +134,8 @@ class TableQAgent(chainerrl.agent.Agent):
         # Hint: np.random.choice() を使うと良いでしょう。
         # ------------
         # action =  # here #
-        raise NotImplementedError()
         # ------------
+        action = np.random.choice([random_action, max_q_action], p=[self.exploration_prob, 1 - self.exploration_prob])
 
         return action
 

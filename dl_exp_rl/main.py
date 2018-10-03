@@ -13,7 +13,7 @@ gym_easymaze.__doc__
 # 環境と agent を用意
 env = gym.make('EasyMaze-v0')
 # env = gym.make('CartPole-v0')
-agent = agents.RulebaseAgent(env, gpu_id)
+agent = agents.TableQAgent(env, gpu_id)
 # agent = agents.RulebaseAgent(env, gpu_id)
 # agent = agents.TableQAgent(env, gpu_id)
 # agent = agents.DQNAgent(env, gpu_id)
