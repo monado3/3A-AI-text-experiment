@@ -1,3 +1,5 @@
+from pathlib import Path
+
 try:
     import matplotlib
 
@@ -22,7 +24,7 @@ def main():
                         help='Frequency of taking a snapshot')
     parser.add_argument('--gpu', '-g', type=int, default=-1,
                         help='GPU ID (negative value indicates CPU)')
-    parser.add_argument('--out', '-o', default='result',
+    parser.add_argument('--out', '-o', default=Path(__file__).joinpath('result').resolve(),
                         help='Directory to output the result')
     parser.add_argument('--resume', '-r', default='',
                         help='Resume the training from snapshot')
