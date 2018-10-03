@@ -25,18 +25,18 @@ env:
 
 平均step数
 
-train:`46.08`
-test:`47.81`
+- train:`46.08`
+- test:`47.81`
 
 ## 演習 1.1.8
 
 平均step数
 
-train:
-test:
+- train: `9.5`
+    - train first 10: `22.6`
+    - train last 10: `7.8`
+- test: `7.21`
 
-train first 10:
-train last 10:
 
 ## 演習 1.1.10
 
