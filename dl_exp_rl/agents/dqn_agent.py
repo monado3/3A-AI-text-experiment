@@ -1,7 +1,7 @@
 import chainer
 import chainerrl
 import gym
-from agents import models
+from dl_exp_rl.agents import models
 
 from .utils import Utils
 
