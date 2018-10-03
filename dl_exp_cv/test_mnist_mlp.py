@@ -10,7 +10,7 @@ import argparse
 import chainer
 from PIL import Image
 from chainer import serializers
-from net import MLP
+from dl_exp_cv.net import MLP
 
 
 def main():

@@ -9,7 +9,7 @@ import argparse
 import chainer
 from chainer import training
 from chainer.training import extensions
-from net import MLP
+from dl_exp_cv.net import MLP
 
 
 def main():
