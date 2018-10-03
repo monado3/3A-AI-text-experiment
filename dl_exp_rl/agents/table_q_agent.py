@@ -32,11 +32,13 @@ class TableQAgent(chainerrl.agent.Agent):
         self.exploration_prob = 0.3
 
     def act_and_train(self, obs, reward):
+        """called when train phase"""
         self.train(obs, reward)
         return self.select_action(obs)
 
     def act(self, obs):
-        return self.select_action(obs)
+        """called when test phase"""
+        return np.argmax(self.q_table[TableQAgent.observation_to_key(obs)])
 
     def stop_episode_and_train(self, obs, reward, done=False):
         self.train(obs, reward)

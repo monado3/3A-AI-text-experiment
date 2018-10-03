@@ -22,6 +22,7 @@ agent = agents.TableQAgent(env, gpu_id)
 # 描画設定
 # train時・test時に各 step を描画するかどうか
 prints_detail = {'train': False, 'test': False}
+prints_q_table = False
 # 何 episode ごとに統計情報を出力するか
 every_print_statistics = {'train': 10, 'test': 10}
 # 描画モード
@@ -91,7 +92,8 @@ for interact_mode in ['train', 'test']:  # 一周目: train, 二周目: test
             average_rewards = sum_of_all_rewards / (i_episode + 1)
             print(interact_mode, 'episode:', i_episode, 'T:', time,
                   'R:', average_rewards, 'statistics:', agent.get_statistics())
-            print(agent.q_table_to_str())
+            if prints_q_table:
+                print(agent.q_table_to_str())
     if interact_mode == 'train':
         print('the average number of steps by first 10 episodes is {}'.format(np.mean(steps_by_episodes[:10])))
         print('the average number of steps by  last 10 episodes is {}'.format(np.mean(steps_by_episodes[-10:])))
