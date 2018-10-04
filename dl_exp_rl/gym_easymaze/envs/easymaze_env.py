@@ -1,9 +1,10 @@
-import gym
-from gym import error, spaces, utils
-from gym.utils import seeding
 import copy
-import numpy as np
 from collections import OrderedDict
+
+import gym
+import numpy as np
+from gym import spaces
+from gym.utils import seeding
 
 
 class EasyMazeEnv(gym.Env):
@@ -35,9 +36,12 @@ class EasyMazeEnv(gym.Env):
         self.move_directions = np.array(((0, 1), (1, 0), (0, -1), (-1, 0)))  # 4方向 (y, x)
         # 迷路のかたち
         # 0は移動不可、1は移動可能
+        # self.initial_maze = [[1, 1, 1, 1],
+        #                      [1, 1, 0, 1],
+        #                      [1, 1, 1, 1]]
         self.initial_maze = [[1, 1, 1, 1],
                              [1, 1, 0, 1],
-                             [1, 1, 1, 1]]
+                             [1, 1, 0, 1]]
         self.start_pos, self.goal_pos = np.array((0, 0)), np.array((2, 3))  # スタートとゴール (y, x)
 
         self.state = {}  # 状態 ゲーム中に変化するものはすべてstateとして扱うとよい
@@ -49,7 +53,7 @@ class EasyMazeEnv(gym.Env):
         self.observation_space = spaces.Dict({'y': spaces.Discrete(self.world_size[0]),
                                               'x': spaces.Discrete(self.world_size[1])})
 
-    def _step(self, action):
+    def _step(self, action):  # stepの動きを環境上でシミュレートし、その結果と付随情報を返す。
         # 取る行動をベクトル表現にする
         move_direction = self.move_directions[action]
 
@@ -86,12 +90,12 @@ class EasyMazeEnv(gym.Env):
         # 観測, 報酬, 終了判定, その他の任意情報 のタプルを返す
         return observe, reward, done, info
 
-    def _reset(self):
+    def _reset(self):  # 環境をリセットする
         self.state['maze'] = copy.deepcopy(self.initial_maze)
         self.state['agent_pos'] = copy.deepcopy(self.start_pos)
         return self.get_observation(self.state)
 
-    def _render(self, mode='ansi', close=False):
+    def _render(self, mode='ansi', close=False):  # 与えられたモードで現在の状態を描画する
         if close:
             # rgb_array mode などのときに、ウィンドウを閉じたりする
             # 今回は何もしない
@@ -106,6 +110,10 @@ class EasyMazeEnv(gym.Env):
             return return_str
         else:
             super().render(mode=mode)  # スーパークラスがunsupported errorを出してくれる
+
+    def _seed(self, seed=None):
+        self.np_random, seed = seeding.np_random(seed)
+        return [seed]
 
     def get_observation(self, state):
         pos = state['agent_pos']

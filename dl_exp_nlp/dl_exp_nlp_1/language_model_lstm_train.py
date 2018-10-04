@@ -1,12 +1,8 @@
-#!/usr/bin/env python3
-
-import sys
-
-import chainer
-import sentence_data
 from chainer import cuda, optimizers
-from language_model_lstm import LanguageModelLSTM
-from sentence_data import EOS_ID
+
+from . import sentence_data
+from .language_model_lstm import LanguageModelLSTM
+from .sentence_data import EOS_ID
 
 dataset = sentence_data.SentenceData("dataset/data_1000.txt")
 

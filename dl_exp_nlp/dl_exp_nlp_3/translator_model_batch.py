@@ -1,9 +1,8 @@
-import numpy
 import chainer
-from chainer import Variable, serializers, Chain, cuda
 import chainer.functions as F
 import chainer.links as L
-
+import numpy
+from chainer import Variable, cuda, serializers
 from sentence_data import EOS_ID
 
 # GPU上で計算を行う場合は，この変数を非Noneの整数にする
@@ -27,9 +26,9 @@ class TranslatorModel(chainer.Chain):
             # 最後の0.5はドロップアウト率
             # 意味は山崎先生の説明を思い出すか，各自で検索すること
             self.W_lstm_enc = L.NStepLSTM(self.lstm_layer_size,
-                                     embed_size, embed_size, 0.5)
+                                          embed_size, embed_size, 0.5)
             self.W_lstm_dec = L.NStepLSTM(self.lstm_layer_size,
-                                     embed_size, embed_size, 0.5)
+                                          embed_size, embed_size, 0.5)
             self.W_hr_y = L.Linear(embed_size, target_vocabulary_size)
         # 隠れ層の次元数を保存
         self.embed_size = embed_size

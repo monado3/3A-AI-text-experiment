@@ -1,12 +1,8 @@
-#!/usr/bin/env python3
+from chainer import cuda, optimizers
 
-import sys
-import chainer
-from chainer import optimizers, cuda
-
-import sentence_data
-from sentence_data import EOS_ID
-from language_model_rnn import LanguageModelRNN
+from . import sentence_data
+from .language_model_rnn import LanguageModelRNN
+from .sentence_data import EOS_ID
 
 dataset = sentence_data.SentenceData("dataset/data_1000.txt")
 

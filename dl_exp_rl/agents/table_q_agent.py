@@ -1,7 +1,8 @@
-import gym
-import chainerrl.agent
-import numpy as np
 from collections import OrderedDict
+
+import chainerrl.agent
+import gym
+import numpy as np
 
 
 class TableQAgent(chainerrl.agent.Agent):
@@ -31,11 +32,13 @@ class TableQAgent(chainerrl.agent.Agent):
         self.exploration_prob = 0.3
 
     def act_and_train(self, obs, reward):
+        """called when train phase"""
         self.train(obs, reward)
         return self.select_action(obs)
 
     def act(self, obs):
-        return self.select_action(obs)
+        """called when test phase"""
+        return np.argmax(self.q_table[TableQAgent.observation_to_key(obs)])
 
     def stop_episode_and_train(self, obs, reward, done=False):
         self.train(obs, reward)
@@ -56,7 +59,7 @@ class TableQAgent(chainerrl.agent.Agent):
 
     def train(self, obs, reward):
         if self.last_obs is not None:
-            assert(self.last_action is not None)
+            assert (self.last_action is not None)
             last_obs_key, obs_key = [self.observation_to_key(o) for o in [self.last_obs, obs]]
             # 見たことないようなら辞書に追加
             if last_obs_key not in self.q_table:
@@ -71,8 +74,8 @@ class TableQAgent(chainerrl.agent.Agent):
                 #       self.q_table の実装がどのようになっているかに注意してください。
                 # ------------
                 # max_q =  # here #
-                raise NotImplementedError()
                 # ------------
+                max_q = np.max([self.q_table[obs_key][act] for act in range(self.action_num)])
             else:
                 max_q = 0.0
 
@@ -84,8 +87,9 @@ class TableQAgent(chainerrl.agent.Agent):
             # です。ここで、pは学習率、gは割引率です。
             # ------------
             # self.q_table[# here #][# here #] =  # here #
-            raise NotImplementedError()
             # ------------
+            self.q_table[last_obs_key][self.last_action] += self.learning_rate * (
+                reward + self.discount_factor * max_q - self.q_table[last_obs_key][self.last_action])
 
         # 観測を保存
         self.last_obs = obs
@@ -101,7 +105,8 @@ class TableQAgent(chainerrl.agent.Agent):
         self.last_action = action
         return action
 
-    def observation_to_key(self, obs):
+    @staticmethod
+    def observation_to_key(obs):
         return tuple(obs.values())
 
     def epsilon_greedy(self, obs_key):
@@ -113,8 +118,8 @@ class TableQAgent(chainerrl.agent.Agent):
         # Hint: random_agent.py を参考にしてみましょう。
         # ------------
         # random_action =  # here #
-        raise NotImplementedError()
         # ------------
+        random_action = np.random.randint(self.action_num)
 
         # exploitation (活用)
         # ---穴埋め---
@@ -122,8 +127,8 @@ class TableQAgent(chainerrl.agent.Agent):
         # Hint: np.argmax() を使うと良いでしょう。
         # ------------
         # max_q_action =  # here #
-        raise NotImplementedError()
         # ------------
+        max_q_action = np.argmax(self.q_table[obs_key])
 
         # どっちか選択
         # ---穴埋め---
@@ -131,13 +136,14 @@ class TableQAgent(chainerrl.agent.Agent):
         # Hint: np.random.choice() を使うと良いでしょう。
         # ------------
         # action =  # here #
-        raise NotImplementedError()
         # ------------
+        action = np.random.choice([random_action, max_q_action], p=[self.exploration_prob, 1 - self.exploration_prob])
 
         return action
 
     def q_table_to_str(self):
         """Q table をいい感じに複数行の文字列にして返す"""
+
         def get_q(y, x, a):
             """obs=(y, x), action=a におけるQ値を返す"""
             obs_key = self.observation_to_key(OrderedDict(sorted([['y', y], ['x', x]])))

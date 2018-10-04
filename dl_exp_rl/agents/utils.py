@@ -1,7 +1,6 @@
 import gym
-from gym import spaces
 import numpy as np
-from functools import reduce
+from gym import spaces
 
 
 class Utils:

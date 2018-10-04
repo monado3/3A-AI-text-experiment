@@ -1,25 +1,26 @@
 import gym
+# from dl_exp_rl import gym_easymaze this is unwork.
 import gym_easymaze
-import agents
-from print_buffer import PrintBuffer
+import numpy as np
+
+from dl_exp_rl import agents
+from dl_exp_rl.print_buffer import PrintBuffer
 
 # GPU 番号
 # GPU を使わない場合は None にする
 gpu_id = 0
-
-
+gym_easymaze.__doc__  # has no effect, but needed due to pycharm import optimizer
 # 環境と agent を用意
-env = gym.make('EasyMaze-v0')
-# env = gym.make('CartPole-v0')
-agent = agents.RandomAgent(env, gpu_id)
+# env = gym.make('EasyMaze-v0')
+env = gym.make('CartPole-v0')
 # agent = agents.RulebaseAgent(env, gpu_id)
 # agent = agents.TableQAgent(env, gpu_id)
-# agent = agents.DQNAgent(env, gpu_id)
-
+agent = agents.DQNAgent(env, gpu_id)
 
 # 描画設定
 # train時・test時に各 step を描画するかどうか
-prints_detail = {'train': True, 'test': True}
+prints_detail = {'train': False, 'test': False}
+prints_q_table = False
 # 何 episode ごとに統計情報を出力するか
 every_print_statistics = {'train': 10, 'test': 10}
 # 描画モード
@@ -37,6 +38,7 @@ n_max_time = {'train': 300, 'test': 300}
 # ゲームを繰り返す
 for interact_mode in ['train', 'test']:  # 一周目: train, 二周目: test
     sum_of_all_rewards = 0.0  # episode ごとの average reward を出すために、総計を覚えておく
+    steps_by_episodes = []
     for i_episode in range(n_episode[interact_mode]):  # 各episode について
         render_buffer.prints('-------------------------------')
         render_buffer.prints('episode: {0} / {1}'.format(i_episode, n_episode[interact_mode]))
@@ -66,12 +68,14 @@ for interact_mode in ['train', 'test']:  # 一周目: train, 二周目: test
             else:
                 render_buffer.clear()  # 表示しない
             if done:
+                steps_by_episodes.append(time + 1)
                 # ゲーム終了時(ゲームクリア) の処理
                 if prints_detail[interact_mode]:
                     print('Episode finished.')
                 break
         else:
             # ゲーム終了時(時間切れ) の処理
+            steps_by_episodes.append(time + 1)
             if prints_detail[interact_mode]:
                 print('{0} steps have past, but the agent could not reach the goal.'.format(time))
         # episode が終了したことを agent に伝える
@@ -84,6 +88,13 @@ for interact_mode in ['train', 'test']:  # 一周目: train, 二周目: test
         # 数 episodes に一回、統計情報を表示
         if i_episode % every_print_statistics[interact_mode] == 0 or prints_detail[interact_mode]:
             average_rewards = sum_of_all_rewards / (i_episode + 1)
-            print(interact_mode, 'episode:', i_episode, 'T:', '???',
+            print(interact_mode, 'episode:', i_episode, 'T:', time,
                   'R:', average_rewards, 'statistics:', agent.get_statistics())
-    print(interact_mode, 'finished.')
+            if prints_q_table:
+                print(agent.q_table_to_str())
+    if interact_mode == 'train':
+        print('the average number of steps by first 10 episodes is {}'.format(np.mean(steps_by_episodes[:10])))
+        print('the average number of steps by  last 10 episodes is {}'.format(np.mean(steps_by_episodes[-10:])))
+
+    print('the average number of steps by all episodes is {}'.format(np.mean(steps_by_episodes)))
+    print(interact_mode, 'finished.\n')

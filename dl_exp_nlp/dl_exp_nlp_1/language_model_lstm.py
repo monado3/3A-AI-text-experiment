@@ -2,7 +2,7 @@ import chainer
 import chainer.functions as F
 import chainer.links as L
 import numpy
-from chainer import Chain, Variable, cuda, serializers
+from chainer import Variable, cuda, serializers
 
 # GPU上で計算を行う場合は，この変数を非Noneの整数にする
 gpu_id = None

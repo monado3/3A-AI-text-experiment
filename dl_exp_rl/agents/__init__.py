@@ -1,8 +1,8 @@
 from . import models
+from .dqn_agent import DQNAgent
 from .random_agent import RandomAgent
 from .rulebase_agent import RulebaseAgent
 from .table_q_agent import TableQAgent
-from .dqn_agent import DQNAgent
 
 # このように __init__.py で import することで、agentsフォルダ内の構成が変わっても、
 # (例えば main.py などの) 外部から
