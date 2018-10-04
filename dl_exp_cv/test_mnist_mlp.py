@@ -36,8 +36,11 @@ def main():
     img_array = model.xp.asarray(img, dtype=model.xp.float32).reshape(1, 784)
     with chainer.using_config('train', False), chainer.no_backprop_mode():
         result = model.predict(img_array)
-    print("predict:", model.xp.argmax(result.data))
-
+    # print("predict:", model.xp.argmax(result.data))
+    pred_num_by_prob = model.xp.argsort(-result.data)
+    print('the   most likely predicted number : {}'.format(pred_num_by_prob[0]))
+    print('the second likely predicted number : {}'.format(pred_num_by_prob[1]))
+    print('the  third likely predicted number : {}'.format(pred_num_by_prob[2]))
 
 if __name__ == '__main__':
     main()
