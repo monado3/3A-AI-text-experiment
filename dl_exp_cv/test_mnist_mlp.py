@@ -38,9 +38,10 @@ def main():
         result = model.predict(img_array)
     # print("predict:", model.xp.argmax(result.data))
     pred_num_by_prob = model.xp.argsort(-result.data)
-    print('the   most likely predicted number : {}'.format(pred_num_by_prob[0]))
-    print('the second likely predicted number : {}'.format(pred_num_by_prob[1]))
-    print('the  third likely predicted number : {}'.format(pred_num_by_prob[2]))
+    print('the   most likely predicted number : {}'.format(pred_num_by_prob[0, 0]))
+    print('the second likely predicted number : {}'.format(pred_num_by_prob[0, 1]))
+    print('the  third likely predicted number : {}'.format(pred_num_by_prob[0, 2]))
+
 
 if __name__ == '__main__':
     main()
