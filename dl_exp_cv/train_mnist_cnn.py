@@ -5,6 +5,7 @@ try:
 except ImportError:
     pass
 import argparse
+from pathlib import Path
 
 import chainer
 from chainer import training
@@ -22,7 +23,7 @@ def main():
                         help='Frequency of taking a snapshot')
     parser.add_argument('--gpu', '-g', type=int, default=-1,
                         help='GPU ID (negative value indicates CPU)')
-    parser.add_argument('--out', '-o', default='result',
+    parser.add_argument('--out', '-o', default=str(Path(__file__).parent.joinpath('result_cnn').resolve()),
                         help='Directory to output the result')
     parser.add_argument('--resume', '-r', default='',
                         help='Resume the training from snapshot')
