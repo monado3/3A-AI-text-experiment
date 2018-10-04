@@ -17,8 +17,10 @@ def _create_db(paths, gpu):
             [chainer.cuda.to_cpu(
                 MODEL.extract(
                     [Image.open(path, 'r').convert('RGB')],
-                    ['fc7'],
-                    size=(224, 224))['fc7'].data
+                    # ['fc7'],
+                    # size=(224, 224))['fc7'].data,
+                    ['fc6'],
+                    size=(224, 224))['fc6'].data,
             )
                 for path in paths],
             np.float32
