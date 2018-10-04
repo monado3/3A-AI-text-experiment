@@ -36,12 +36,13 @@ class MnistCNN(chainer.Chain):
     def __init__(self, n_out):
         super(MnistCNN, self).__init__()
         with self.init_scope():
-            self.conv1 = ('畳み込み層を定義してね')
-            self.conv2 = ('畳み込み層を定義してね')
+            self.conv1 = L.Convolution2D(in_channels=None, out_channels=5, ksize=5, stride=2, pad=2)
+            self.conv2 = L.Convolution2D(in_channels=None, out_channels=10, ksize=5, stride=2, pad=2)
             self.l_out = L.Linear(10 * 7 * 7, n_out)
 
     def __call__(self, x, t):
-        h = 'xのshapeを(len(x), 784)から(len(x), 1, 28, 28)に変形してね'
+        # h = 'xのshapeを(len(x), 784)から(len(x), 1, 28, 28)に変形してね'
+        h = x.reshape((x.shape[0], 1, 28, 28))
         h = F.relu(self.conv1(h))
         h = F.relu(self.conv2(h))
         h = self.l_out(h)
