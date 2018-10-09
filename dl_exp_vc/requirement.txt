@@ -1,0 +1,6 @@
+chainer の他に、以下のパッケージをインストールする必要があります
+
+pysptk: 信号処理のツールキットSPTK のpythonラッパー
+pyworld: 高品質分析合成系WORLD の pythonラッパー
+dtw: 動的時間伸縮の一実装
+

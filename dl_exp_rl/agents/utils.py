@@ -52,4 +52,4 @@ class Utils:
         else:
             raise NotImplementedError()
 
-        return (lambda x: np.array(flatten(x), dtype=np.float32), size)
+        return lambda x: np.array(flatten(x), dtype=np.float32), size
